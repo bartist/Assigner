@@ -7,6 +7,8 @@ public class Reader {
 
 	public static Graph read(String file) {
 		Scanner sc = IOcreator.createScanner(file);
+		if(sc == null) 
+			return null;
 		
 		Graph g = new Graph();
 		sc.nextLine(); //remove line with titles

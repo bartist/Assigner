@@ -12,23 +12,25 @@ public class Main {
 		String src;
 		String res;
 		if(args.length<1 || args.length > 2){
-			src = "testfile.csv";
-			res = "result";
-		}
-		else if(args.length == 1){
-			src = args[0];
-			res = "result";
+			System.out.println("Assign inputfile [output_directory]");
 		}
 		else
 		{
 			src = args[0];
-			res = args[1];
+			if(args.length == 1)			
+				res = "result";
+			else
+				res = args[1];
+
+			Graph data = Reader.read(src);
+			if(data != null){
+				data.overflow();
+				//data.print();
+				Writer.writeTo(res, data.allToString());
+			}
+			else
+				System.out.println("A Error occured while loading data.");
 		}
-		
-		Graph data = Reader.read(src);
-		data.overflow();
-		//data.print();
-		Writer.writeTo(res, data.allToString());
 	}
 	
 }
