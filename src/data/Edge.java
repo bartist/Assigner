@@ -34,7 +34,7 @@ public class Edge {
         if((flow == capacity) || (residu == 0))
             return 0;
 
-        int fix = from.fixFlow(residu);
+        int fix = pushFixFlow(residu,from);
         flow += fix;
         return fix;
     }
@@ -43,11 +43,20 @@ public class Edge {
         if((flow == 0) || (residu == 0))
             return 0;
 
-        int fix = to.fixFlow(residu);
+        int fix = pushFixFlow(residu,to);
         flow -= fix;
         return fix;
     }
-	
+
+    private int pushFixFlow(int residu, Vertex direction) {
+        if(residu > (capacity-flow)){
+            return direction.fixFlow(capacity-flow);
+        }
+        else
+        {
+            return direction.fixFlow(residu);
+        }
+    }
 	@Override
 	public String toString(){
 		if(flow == 0)
