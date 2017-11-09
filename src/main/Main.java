@@ -17,16 +17,18 @@ public class Main {
 		else
 		{
 			src = args[0];
-			if(args.length == 1)			
+			if (args.length < 2)
 				res = "result";
 			else
 				res = args[1];
 
 			Graph data = Reader.read(src);
 			if(data != null){
-				data.overflow();
-				//data.print();
-				Writer.writeTo(res, data.allToString());
+				int resflow = data.overflow();
+				if(!data.flowcheck(resflow)){
+				    data.fixFlow(resflow);
+                }
+                Writer.writeTo(res, data.allToString());
 			}
 			else
 				System.out.println("A Error occured while loading data.");

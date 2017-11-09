@@ -10,20 +10,17 @@ public class Graph {
 	private int size;
 	
 	public Graph(){
-		start = new Vertex(true);
-		end = new Vertex(false);
-		end.setEnd();
+		start = new Vertex(true, null);
+		end = new Vertex(false, null);
 		vertices = new ArrayList<Vertex>();
 		edges = new ArrayList<Edge>();
 		size = 0;
 	}
 	
-	public void addData(String[] data){
+	public void addData(Entry input){
 		size++;
-		Vertex left = new Vertex(true);
-		left.setName(data[1], data[2], data[3]);
-		Vertex right = new Vertex(false);
-		right.setAllData(data);		
+		Vertex left = new Vertex(true, input);
+		Vertex right = new Vertex(false, input);
 		
 		edges.add(new Edge(start,left,4));
 		edges.add(new Edge(right,end,4));
@@ -39,8 +36,8 @@ public class Graph {
 		vertices.add(right);
 	}
 	
-	public void overflow(){
-		start.overflow(Integer.MAX_VALUE);
+	public int overflow(){
+		return start.overflow(Integer.MAX_VALUE);
 	}
 	
 	public String[] allToString(){
@@ -58,7 +55,11 @@ public class Graph {
 		return res;
 	}
 
-	public void print() {
-		System.out.println(String.join("\n\n",this.allToString()));		
+	public boolean flowcheck(int resflow) {
+		return resflow == 4*vertices.size()/2;
 	}
+
+    public void fixFlow(int resflow) {
+	    System.out.println(end.fixFlow(4*vertices.size()/2 - resflow));
+    }
 }
