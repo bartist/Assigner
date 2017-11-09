@@ -32,6 +32,8 @@ public class Entry {
             if(!optionalData[i].equals(""))
                 res += optionalQuestions[i] + optionalData[i] + "\n";
         }
+        if(wantsReturn)
+            res += name + "has requested a return address to return the favor!";
         return res + "\n";
     }
 
