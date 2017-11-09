@@ -5,34 +5,36 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class Vertex {
-	private boolean left;
+	private boolean isleft;
 	private ArrayList<Edge> to;
-	private boolean end;
+	private ArrayList<Edge> from;
+
+	private int totalflow;
+	private Entry data;
+    private boolean fixflag;
 	
-	private String name;
-	private String mail;
-	private String address;
-	private String[] optData;
-	
-	public Vertex(boolean l){
-		left = l;
-		end = false;
-		to = new ArrayList<Edge>();
-	}
-	public void setEnd(){
-		end = true;
+	public Vertex(boolean isleft, Entry data){
+		this.isleft = isleft;
+		totalflow = 0;
+        to = new ArrayList<Edge>();
+        from = new ArrayList<Edge>();
+		this.data = data;
+		fixflag = false;
 	}
 	
 	public void addEdge(Edge e){
 		to.add(e);
 	}
+
+	public void addFrom(Edge e) { from.add(e); }
 	
 	public boolean isLeft(){
-		return left;
+	    return isleft;
 	}
 
 	public int overflow(int stream) {
-		if(end) return stream;
+		if(to.size()==0)
+		    return stream;
 		int flow = 0;
 		
 		Collections.shuffle(to);
@@ -41,27 +43,15 @@ public class Vertex {
 			flow += e.overflow(stream - flow);
 			if(flow == stream) break;
 		}
-		
+		totalflow += flow;
 		return flow;
-	}
-	
-	// Set name data, necessary for both Sender and Receiver
-	public void setName(String name, String mail, String address) {
-		this.name = name;
-		this.mail = mail;
-		this.address = address.replaceAll("\n", ", ");
-	}
-	// Set all data, only necessary for Receiver
-	public void setAllData(String[] data) {
-		this.setName(data[1], data[2], data[3]);
-		optData = Arrays.copyOfRange(data, 4, data.length-1);
 	}
 	
 	@Override
 	public String toString(){
 		// Case toString Sender
-		if(left){
-			String res = name + " - " + mail;
+		if(isLeft()){
+			String res = data.getContactInformation();
 			for(Edge e : to){
 				res = res + e.toString();
 			}
@@ -69,14 +59,42 @@ public class Vertex {
 		}
 		else // Case toString Receiver
 		{
-			String res = "name: " + name + "\n";
-			res += "address: " + address + "\n\n";
-			String[] before = "Favorite Series:\n   ,Favorite Color:\n   ,Favorite Pet:\n   ,2 Fun/Geeky things about me:\n,What I wanted to add:\n   ".split(",");
-			for(int i = 0; i < before.length; i++){
-				if(!optData[i].equals(""))
-					res += before[i] + optData[i] + "\n";
-			}
-			return res;
+			return data.getAllInformation();
 		}
 	}
+
+    public int getFlow() {
+        return totalflow;
+    }
+
+    public int fixFlow(int residu) {
+	    if(from.size()==0) // start is found
+	        return residu;
+
+	    if(fixflag) // if this vertex is already in the fixpath.
+	        return 0;
+
+	    fixflag=true;
+        Collections.shuffle(from);
+
+	    int remainder = residu;
+	    for(Edge e : from) {
+	        remainder -= e.fixFlow(remainder);
+	        if(remainder==0)
+	            break;
+        }
+
+        // When no path towards the start is possible
+        if(remainder == residu){
+            Collections.shuffle(to);
+	        for(Edge e: to) {
+                remainder -= e.reverseFixFlow(remainder);
+                if(remainder==0)
+                    break;
+            }
+        }
+
+        fixflag=false;
+        return residu-remainder;
+    }
 }

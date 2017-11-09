@@ -20,7 +20,7 @@ public class Reader {
 				s = s + "\n" + sc.nextLine();
 
 			String[] data = s.split("\",\"");
-			g.addData(data);
+			g.addData(InputOracle.createEntry(data));
 		}
 		return g;
 	}
