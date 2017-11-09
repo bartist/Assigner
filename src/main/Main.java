@@ -11,12 +11,13 @@ public class Main {
 	public static void main(String[] args){
 		String src;
 		String res;
-		if(args.length<1 || args.length > 2){
+		if(false) {//args.length<1 || args.length > 2){
 			System.out.println("Assign inputfile [output_directory]");
 		}
 		else
 		{
-			src = args[0];
+			//src = args[0];
+			src = "test.csv";
 			if (args.length < 2)
 				res = "result";
 			else

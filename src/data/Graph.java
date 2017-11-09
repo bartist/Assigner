@@ -26,10 +26,13 @@ public class Graph {
 		edges.add(new Edge(right,end,4));
 		
 		for(Vertex v: vertices){
-			if(!v.isLeft()) // connect the new left vertex to all the right vertices
-				edges.add(new Edge(left,v,1));
-			else			// connect all the left vertices to the new right vertex
-				edges.add(new Edge(v,right,1));
+			if(!v.isLeft()) {   // connect the new left vertex to all the right vertices
+                if(left.canSentTo(v))
+                    edges.add(new Edge(left, v, 1));
+            } else {            // connect all the left vertices to the new right vertex
+                if(right.canReceiveFrom(v))
+                    edges.add(new Edge(v, right, 1));
+            }
 		}
 		
 		vertices.add(left);
@@ -60,6 +63,8 @@ public class Graph {
 	}
 
     public void fixFlow(int resflow) {
-	    System.out.println(end.fixFlow(4*vertices.size()/2 - resflow));
+	    int residu = 4*vertices.size()/2 - resflow;
+	    if(end.fixFlow(residu) != residu)
+            System.out.println("No viable solution");
     }
 }

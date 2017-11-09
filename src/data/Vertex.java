@@ -97,4 +97,16 @@ public class Vertex {
         fixflag=false;
         return residu-remainder;
     }
+
+    public boolean canSentTo(Vertex receiver) {
+	    return data.canSendTo(receiver.getData());
+    }
+
+    public Entry getData() {
+        return data;
+    }
+
+    public boolean canReceiveFrom(Vertex sender) {
+	    return data.canReceiveFrom(sender.getData());
+    }
 }

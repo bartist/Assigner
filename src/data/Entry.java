@@ -63,7 +63,15 @@ public class Entry {
         this.optionalData = optional;
     }
 
-    public String getName() {
-        return name;
+    public boolean canSendTo(Entry receiver) {
+        return outofCountry || country.equals(receiver.getCountry());
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public boolean canReceiveFrom(Entry sender) {
+        return !wantsReturn || this.canSendTo(sender);
     }
 }
