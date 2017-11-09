@@ -55,10 +55,6 @@ public class Graph {
 		return res;
 	}
 
-	public void print() {
-		System.out.println(String.join("\n\n",this.allToString()));		
-	}
-
 	public boolean flowcheck(int resflow) {
 		return resflow == 4*vertices.size()/2;
 	}
