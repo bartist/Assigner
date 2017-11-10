@@ -12,7 +12,7 @@ public class Main {
 		String src;
 		String res;
 		if(args.length<1 || args.length > 2){
-			System.out.println("Assign inputfile [output_directory]");
+			System.out.println("Assign target_csv [output_directory]");
 		}
 		else
 		{
