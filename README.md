@@ -1,5 +1,5 @@
 # Assigner
-The assigner sofware is used for randomly assigning addresses for (christamas) cards exchanges. The current version assignes four other participants to each participants, using a graph and network flow theory.
+The assigner sofware is used for randomly assigning addresses for (christmas) cards exchanges. The current version assignes four other participants to each participants, using a graph and network flow theory.
 
 ## Usage
 The assigner software expects a csv-file created by a google form, meaning that the first column is a timestamp. The following columns/questions are required as the first questions
@@ -45,3 +45,10 @@ If the fix flow reaches	the start-vertex, then a fix flow path has been found.  
 Using the Fix Flow algorithm to reach optimal flow, it seem possible to create cyclic paths where a vertex appears twice or more in a path. To prevent this, the sender-vertices are flaged as part of the current fix flow. If the Fix Flow algorithm encounters  a flaged vertex, then the path will roll back and pick another open edge.
 
 ## Adaptation
+There are several things that can be changed to the software to adapt the Assigner software for own use. 
+
+#### Changing the number of assignments:
+In the file *Reader.java*, change the number for **CAPACITY**.
+
+#### Changing the optional questions:
+In the file *InputOracle.java*, change the value of **QUESTIONS**. To preserve the same format, create a string in the format [question + "\\n,"]* [question + "\n"  ]
