@@ -1,5 +1,5 @@
 # Assigner
-The assigner sofware is used for randomly assigning addresses for (christmas) cards exchanges. The current version assignes four other participants to each participants, using a graph and network flow theory.
+The assigner sofware is used for randomly assigning addresses for (christmas) cards exchanges. The current version assignes four other participants to each participants, using a directed graph and network flow theory.
 
 ## Usage
 The assigner software expects a csv-file created by a google form, meaning that the first column is a timestamp. The following columns/questions are required as the first questions
@@ -31,29 +31,29 @@ Two vertices are created for each participant: a sender-vertex and a receiver-ve
  - A receiver is able to return the favor to the sender if he/she wants to (for this version: if the receiver is not able to send cards abroad and wants to return the favor, then it can only receive from senders in the same country).
 
 ![Example Graph](img/example_graph.png)
-*An example graph with three participants and one assignment*
+*An example graph with three participants and edges of capacity one*
 
 ### Initial flow
 The initial flow of the maximum value (Integer.MAX_VALUE) starts from the start-vertex. This flow results in a flow of four to each sender-vertex. In the sender-vertex, edges to receiver-vertices are randomly chosen to continue the flow until there is no flow left (thus four viable receivers-vertices have been found) or there are no unchecked edges. A receiver-vertex can have at most four incoming flows from edges, because the flow is limited by the outgoing edge with capacity four to the end-node. Each flow from a sender-vertex to a receiver-vertex represents an assignment, thus each sender gets four receivers and each receiver gets four senders.
 
 ![Example Flow](img/example_flow.png)
-*An possible optimal flow in the graph*
+*The example graph with flow, where satisfied edges are red*
 
 ### Fix flow
 Because the flow is random, there is a situation that prevent senders from having the desired amount of receivers (and vice-versa). When the only recievers left are none-viable options, either because the receiver-vertices already have four incoming flows or because the sender is not connected to the remainding receiver-vertices, then the sender cannot reach the desired amount of receivers. 
 
-![Example Flow](img/example_faulty_flow.png)
-*An possible optimal flow in the graph*
+![Example Faulty Flow](img/example_faulty_flow.png)
+*A possible flow in the example graph with non-optimal flow*
 
 If the desired flow is not reached, then a fix flow is deployed starting from the end-vertex. The fix flow searches a random path composed of open edges (edges with a flow smaller than the capacity) to the start node. If the path ends at a vertex with no open edge towards the start-vertex, then a random satisfied edge (an edge with flow equal to its capacity) is chosen. The fix flow continues from receiver-vertex at the end of the satisfied path. 
 
-![Example Flow](img/example_fix_flow_1.png)
-![Example Flow](img/example_fix_flow_2.png)
-*A possible propogation of the Fix Flow algorithm*
+![Example Fix Flow 1](img/example_fix_flow_1.png)
+![Example Fix Flow 2](img/example_fix_flow_2.png)
+*A possible propogation of the Fix Flow algorithm, represented in blue*
 
-If the fix flow reaches	the start-vertex, then a fix flow path has been found.  The size of the flow is the minimum of the flows in the satisfied edges and the remaining capacity of the open edges. The flow of the open edges is increased by that amount, and the flow of the satisfied edges is decreased by that amount.
+If the fix flow reaches	the start-vertex, then a fix flow path has been found. The size of the flow is the minimum of the flows in the satisfied edges and the remaining capacity of the open edges. The flow of the open edges is increased by that amount, and the flow of the satisfied edges is decreased by that amount.
 
-![Example Flow](img/example_fixed_flow.png)
+![Example Fixed Flow](img/example_fixed_flow.png)
 *The fixed flow*
 
 #### Cyclic flows?
