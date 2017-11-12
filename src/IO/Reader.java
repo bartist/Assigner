@@ -4,13 +4,14 @@ import java.util.Scanner;
 import data.Graph;
 
 public class Reader {
+	private final static int CAPACITY = 4;
 
 	public static Graph read(String file) {
 		Scanner sc = IOcreator.createScanner(file);
 		if(sc == null) 
 			return null;
 		
-		Graph g = new Graph();
+		Graph g = new Graph(CAPACITY);
 		sc.nextLine(); //remove line with titles
 		
 		while(sc.hasNextLine()){

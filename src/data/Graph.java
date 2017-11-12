@@ -8,12 +8,14 @@ public class Graph {
 	private Vertex start;
 	private Vertex end;
 	private int size;
+	private int capacity;
 	
-	public Graph(){
+	public Graph(int capacity){
 		start = new Vertex(true, null);
 		end = new Vertex(false, null);
 		vertices = new ArrayList<Vertex>();
 		edges = new ArrayList<Edge>();
+		this.capacity = capacity;
 		size = 0;
 	}
 	
@@ -22,15 +24,15 @@ public class Graph {
 		Vertex left = new Vertex(true, input);
 		Vertex right = new Vertex(false, input);
 		
-		edges.add(new Edge(start,left,4));
-		edges.add(new Edge(right,end,4));
+		edges.add(new Edge(start,left,capacity));
+		edges.add(new Edge(right,end,capacity));
 		
 		for(Vertex v: vertices){
-			if(!v.isLeft()) {   // connect the new left vertex to all the right vertices
-                if(left.canSentTo(v))
+			if(!v.isLeft()) {   // connect the new left vertex to all the right vertices (if able)
+                if(left.canSentTo(v) && v.canReceiveFrom(left))
                     edges.add(new Edge(left, v, 1));
-            } else {            // connect all the left vertices to the new right vertex
-                if(right.canReceiveFrom(v))
+            } else {            // connect all the left vertices to the new right vertex (if able)
+                if(right.canReceiveFrom(v) && v.canSentTo(right))
                     edges.add(new Edge(v, right, 1));
             }
 		}
