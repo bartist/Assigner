@@ -20,7 +20,7 @@ public class Reader {
 			while(!s.substring(s.length() - 1).equals("\"")) 
 				s = s + "\n" + sc.nextLine();
 
-			String[] data = s.substring(0,s.length()-1).split("\",\"");
+			String[] data = s.split("\",\"");
 			g.addData(InputOracle.createEntry(data));
 		}
 		return g;
