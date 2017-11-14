@@ -24,19 +24,9 @@ public class Writer {
 		}
 		
 		try{
-			for(String assignment : data){
-				//
-				String[] assign = assignment.split("X__X");
-				String sender = assign[0];
-				String[] receivers = Arrays.copyOfRange(assign,1,assign.length);
-				
-			    PrintWriter writer = new PrintWriter(p + "/" + sender.split(" - ")[0] + ".txt", "UTF-8");
-			    writer.println(sender);
-			    writer.println();
-			    for(String r : receivers){
-			    	writer.println(r);
-			    	writer.println();
-			    }
+			for(String information : data) {
+			    PrintWriter writer = new PrintWriter(p + "/" + information.split(" - ")[0] + ".txt", "UTF-8");
+			    writer.println(information);
 			    writer.close();
 			}
 		} catch (Exception e) {
