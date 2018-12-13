@@ -1,7 +1,6 @@
 package data;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Vertex {
@@ -33,7 +32,7 @@ public class Vertex {
 	}
 
 	public int overflow(int stream) {
-		if(to.size()==0)
+		if(this.isEnd())
 		    return stream;
 		int flow = 0;
 		
@@ -68,7 +67,7 @@ public class Vertex {
     }
 
     public int fixFlow(int residu) {
-	    if(from.size()==0) // start is found
+	    if(this.isStart()) // start is found
 	        return residu;
 
 	    if(fixflag) // if this vertex is already in the fixpath.
@@ -109,4 +108,12 @@ public class Vertex {
     public boolean canReceiveFrom(Vertex sender) {
 	    return data.canReceiveFrom(sender.getData());
     }
+
+    public boolean isStart() {
+		return false;
+	}
+
+	public boolean isEnd() {
+		return false;
+	}
 }

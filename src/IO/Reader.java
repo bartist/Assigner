@@ -4,7 +4,7 @@ import java.util.Scanner;
 import data.Graph;
 
 public class Reader {
-	private final static int CAPACITY = 4;
+	private final static int CAPACITY = 3;
 
 	public static Graph read(String file) {
 		Scanner sc = IOcreator.createScanner(file);

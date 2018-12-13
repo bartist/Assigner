@@ -10,7 +10,7 @@ public class Main {
 	// Arguments: [loc_of_input_file, loc_of_output_file]
 	public static void main(String[] args){
 		String src;
-		String res;
+		String resultMap;
 		if(args.length<1 || args.length > 2){
 			System.out.println("Assign target_csv [output_directory]");
 		}
@@ -18,17 +18,18 @@ public class Main {
 		{
 			src = args[0];
 			if (args.length < 2)
-				res = "result";
+				resultMap = "result";
 			else
-				res = args[1];
+				resultMap = args[1];
 
 			Graph data = Reader.read(src);
 			if(data != null){
-				int resflow = data.overflow();
-				if(!data.flowcheck(resflow)){
-				    data.fixFlow(resflow);
+				int resultFlow = data.overflow();
+				if(data.isOptimalFlow(resultFlow) || data.fixFlow(resultFlow)){
+					Writer.writeTo(resultMap, data.allToString());
                 }
-                Writer.writeTo(res, data.allToString());
+                else
+					System.out.println("No viable solution");
 			}
 			else
 				System.out.println("A Error occured while loading data.");

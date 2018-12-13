@@ -33,7 +33,7 @@ public class Entry {
                 res += optionalQuestions[i] + optionalData[i] + "\n";
         }
         if(wantsReturn)
-            res += name + "has requested a return address to return the favor!";
+            res += name + " has requested a return address to return the favor!";
         return res + "\n\n";
     }
 

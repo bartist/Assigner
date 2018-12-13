@@ -1,5 +1,8 @@
 package data;
 
+import data.vertex.EndVertex;
+import data.vertex.StartVertex;
+
 import java.util.ArrayList;
 
 public class Graph {
@@ -11,8 +14,8 @@ public class Graph {
 	private int capacity;
 	
 	public Graph(int capacity){
-		start = new Vertex(true, null);
-		end = new Vertex(false, null);
+		start = new StartVertex();
+		end = new EndVertex();
 		vertices = new ArrayList<Vertex>();
 		edges = new ArrayList<Edge>();
 		this.capacity = capacity;
@@ -60,13 +63,13 @@ public class Graph {
 		return res;
 	}
 
-	public boolean flowcheck(int resflow) {
-		return resflow == 4*vertices.size()/2;
+	public boolean isOptimalFlow(int resultFlow) {
+		return resultFlow == capacity*vertices.size()/2;
 	}
 
-    public void fixFlow(int resflow) {
-	    int residu = 4*vertices.size()/2 - resflow;
-	    if(end.fixFlow(residu) != residu)
-            System.out.println("No viable solution");
+    public boolean fixFlow(int resultFlow) {
+	    int residu = capacity*vertices.size()/2 - resultFlow;
+	    int fixFlowResult = end.fixFlow(residu);
+		return this.isOptimalFlow(fixFlowResult + resultFlow);
     }
 }
